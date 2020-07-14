@@ -1,0 +1,11 @@
+{
+  "name": "virtual-work-place",
+  "version": "1.0.0",
+  "description": "a virtual work place backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sriraj.gk@gmail.com",
+  "license": "ISC"
+}
