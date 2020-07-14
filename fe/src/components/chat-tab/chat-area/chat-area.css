@@ -1,0 +1,11 @@
+.chat-area-spec {
+    margin: 4rem;
+    margin-top: -5px;
+    border: 1px solid white;
+    background: white;
+    height: 80vh;
+}
+.chat-input-spec {
+    margin: 4rem;
+    margin-top: -1.5rem;
+}
