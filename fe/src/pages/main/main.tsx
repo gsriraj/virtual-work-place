@@ -28,13 +28,17 @@ const { Header, Content, Footer, Sider } = Layout;
 
 function Main() {
 
+
     const [collapsed, setCollapsed] = useState<boolean>(false)
 
     const onCollapse = () => {
         setCollapsed(!collapsed)
     };
 
+
     const location = useLocation();
+
+    
     return (
         <BrowserRouter>
             <Layout style={{ minHeight: '100vh' }}>
