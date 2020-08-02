@@ -5,6 +5,7 @@ import Main from './pages/main/main'
 import Login from './pages/login/login';
 import Loading from './components/common/loading/loading'
 import AuthenticatedRoute from './components/auth/authenticated-route'
+import Register from './pages/register/register'
 
 function App() {
   // const { isAuthenticated } = useAuth0();
@@ -39,6 +40,7 @@ function App() {
         {/* <Route path="/break-out" component={Main} /> */}
         {/* <Route path="/settings" component={Main} /> */}
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
       </Switch>
       {/* </div>  */}
     </div>

@@ -7,6 +7,7 @@ import UserSvc from '../../../../services/user-svc';
 
 function Settings(props: any) {
     console.log("set", props)
+    const { history } = props
 
     return (
         <div>
@@ -15,6 +16,7 @@ function Settings(props: any) {
                 icon={<PoweroffOutlined />}
                 onClick={() => UserSvc.logOut((res: any) => {
                     message.info("User logged out!", 5)
+                    history.push("/login")
                 })}
             >
                 Log out

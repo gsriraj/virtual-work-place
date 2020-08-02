@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { Result, Form, Input, Button, Checkbox } from 'antd';
 import { SmileOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css';
@@ -65,7 +65,7 @@ function Login(props: any) {
                         <Button type="primary" block htmlType="submit" className="login-form-button">
                             Log in
                     </Button>
-                     Or <a href="">register now!</a>
+                     Or <Link to="/register"><span>register now!</span></Link>
                     </Form.Item>
                 </Form>
             </div>

@@ -22,9 +22,10 @@ type User struct {
 	Email       string `bson:"email" validate:"required,email"`
 	Password    string `bson:"password" validate:"required,min=8"`
 	Designation string `bson:"designation" validate:"required"`
-	City        string `bson:"city" validate:"required"`
-	State       string `bson:"state" validate:"required"`
-	Country     string `bson:"country" validate:"required"`
+	// CompanyName string `bson: "company_name" validate:"required"`
+	City    string `bson:"city" validate:"required"`
+	State   string `bson:"state" validate:"required"`
+	Country string `bson:"country" validate:"required"`
 }
 
 type UserLogin struct {

@@ -1,0 +1,16 @@
+.spec-register {
+   margin-left: 15rem;
+   margin-right: 15rem;
+   /* margin-top: -2rem; */
+}
+
+.abs-center-register {
+    display: grid;
+    place-items: center;
+}
+
+.steps-content {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 3rem;
+}
