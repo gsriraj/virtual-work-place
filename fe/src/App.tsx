@@ -19,6 +19,7 @@ function App() {
           <AuthenticatedRoute exact path="/meeting-rooms" component={Main} ></AuthenticatedRoute>
           <AuthenticatedRoute exact path="/files" component={Main} ></AuthenticatedRoute>
           <AuthenticatedRoute exact path="/break-out" component={Main} ></AuthenticatedRoute>
+          <AuthenticatedRoute exact path="/calendar" component={Main} ></AuthenticatedRoute>
           <AuthenticatedRoute exact path="/settings" component={Main} ></AuthenticatedRoute>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Avatar, Card, Space } from 'antd';
+import { Layout, Avatar, Card, Space, Row, Col } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './me.css';
 
@@ -10,13 +10,24 @@ function Me() {
         <div className="me-body-spec">
             <Layout style={{ minHeight: '100vh', marginLeft: '-1rem' }}>
                 <Content>
-                    <Card style={{ width: 300 }}>
-                        <Space size="middle" direction="vertical">
-                            <Avatar size={64} icon={<UserOutlined />} />
-                            <h3>Dummy User</h3>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, laborum perferendis delectus necessitatibus, nesciunt, nam enim in odit quisquam facilis dolore ipsa! Sed quasi dolore eius? Aut minima consequuntur sint.</p>
-                        </Space>
-                    </Card>
+                    <Row>
+                        <Card style={{ width: 300 }}>
+                                <Avatar size={64} icon={<UserOutlined />} />
+                                <h3>User name</h3>
+                                <h4>email</h4>
+                                <p>user status</p>
+                                <p>user location</p>
+                        </Card>
+                    </Row>
+
+
+                    <Row>
+                        <Card style={{ width: 300 }}>
+                                <h3>Company name</h3>
+                                <p>Comany domain</p>
+                                <p>Company address</p>
+                        </Card>
+                    </Row>
                 </Content>
             </Layout>
         </div>

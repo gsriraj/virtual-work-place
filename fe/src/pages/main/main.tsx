@@ -11,7 +11,8 @@ import {
     TeamOutlined,
     SettingOutlined,
     PhoneOutlined,
-    UserOutlined
+    UserOutlined,
+    CalendarOutlined
 } from '@ant-design/icons';
 import Teams from './tabs/teams/teams';
 import Settings from './tabs/settings/settings';
@@ -20,6 +21,7 @@ import BreakOut from './tabs/break-out/break-out';
 import MeetingRooms from './tabs/meeting-rooms/meeting-rooms';
 import Files from './tabs/files/files';
 import Me from './tabs/me/me';
+import Calendar from './tabs/calendar/calendar';
 import './main.css';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -66,6 +68,11 @@ function Main(props: any) {
                                 Meeting Rooms
                             </NavLink>
                         </Menu.Item>
+                        <Menu.Item key="/calendar" icon={<CalendarOutlined />}>
+                            <NavLink to="/calendar">
+                                Calendar
+                            </NavLink>
+                        </Menu.Item>
                         <Menu.Item key="/files" icon={<FileOutlined />} >
                             <NavLink to="/files">
                                 Files
@@ -77,7 +84,7 @@ function Main(props: any) {
                             </NavLink>
                         </Menu.Item>
                         <Menu.Item key="/settings" icon={<SettingOutlined />}>
-                            <Link to={{ pathname: "/settings", state: { isAuthenticated: props.isAuthenticated, setisAuthenticate: props.setisAuthenticate } }}>
+                            <Link to="/settings">
                                 Settings
                             </Link>
                         </Menu.Item>
@@ -94,6 +101,7 @@ function Main(props: any) {
                             <Route path="/meeting-rooms" component={MeetingRooms} />
                             <Route path="/files" component={Files} />
                             <Route path="/break-out" component={BreakOut} />
+                            <Route path="/calendar" component={Calendar} />
                             <Route path="/settings" component={Settings} />
                         </Switch>
                     </Content>
