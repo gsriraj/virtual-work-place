@@ -8,20 +8,17 @@ import {
     Tooltip,
     Tabs,
     Select,
-    Row,
-    Col,
-    Checkbox,
     Button,
     AutoComplete,
     Result
 } from 'antd';
 import { QuestionCircleOutlined, SmileOutlined } from '@ant-design/icons';
 import { Store } from 'antd/lib/form/interface';
+import UserSvc from '../../services/user-svc';
+import CompanySvc from '../../services/company-svc'
+import { UserRegisterForm, CompanyRegisterForm } from '../../models/models'
 
-const { Option } = Select;
 const { Step } = Steps;
-const { TabPane } = Tabs;
-const AutoCompleteOption = AutoComplete.Option;
 
 const formItemLayout = {
     labelCol: {
@@ -47,18 +44,83 @@ const tailFormItemLayout = {
 };
 
 
-
-
-
 function Register() {
 
     const [form] = Form.useForm();
 
     const [currentStep, setCurrentStep] = useState<number>(0);
 
+    const [userForm, setUserForm] = useState<UserRegisterForm>({
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: '',
+        designation: '',
+        phone: '',
+        state: '',
+        city: '',
+        country: ''
+    });
+    const [companyForm, setCompanyForm] = useState<CompanyRegisterForm>({
+        name: '',
+        domain: '',
+        phone: '',
+        state: '',
+        city: '',
+        country: '',
+        zipcode: '',
+        ownerID: ''
+    });
 
-    const onFinish = (values: Store) => {
+    const registerUser = (userRegForm: UserRegisterForm) => {
+        console.log("user resgister form data", userForm)
+        UserSvc.register(userRegForm, (response: any) => {
+            setUserForm({ ...userForm, ["_id"]: response._id })
+            console.log("user resgister resp", response)
+            message.success("User registered successfully!")
+            next()
+            console.log("user resgister resp", userForm)
+        })
+    }
+
+    const registerCompany = (companyRegForm: CompanyRegisterForm) => {
+        console.log("company register form", companyRegForm)
+        CompanySvc.createCompany(companyRegForm, (response: any) => {
+            setCompanyForm({ ...companyForm, ["_id"]: response._id })
+        })
+    }
+
+
+    const onFinish = async (values: Store) => {
         console.log('Received values of form: ', values);
+        if (currentStep == 0) {
+            let userRegForm: UserRegisterForm = {
+                firstname: values.firstname,
+                lastname: values.lastname,
+                email: values.email,
+                password: values.password,
+                designation: values.designation,
+                phone: values.phone,
+                state: values.state,
+                city: values.city,
+                country: values.country
+            }
+            setUserForm(userRegForm)
+            await registerUser(userRegForm)
+        } else {
+            let companyRegForm: CompanyRegisterForm = {
+                name: values.name,
+                domain: values.domain,
+                phone: values.phone,
+                state: values.state,
+                city: values.city,
+                country: values.country,
+                zipcode: values.zipcode,
+                ownerID: userForm._id
+            }
+            setCompanyForm(companyForm)
+            await registerCompany(companyRegForm)
+        }
     };
 
     const next = () => {
@@ -324,7 +386,7 @@ function Register() {
                 </Form.Item>
 
                 <Form.Item
-                    name="phone"
+                    name="companyPhone"
                     label="Company Phone Number"
                     rules={[{ required: true, message: 'Please input your phone number!' }]}
                 >
@@ -352,27 +414,7 @@ function Register() {
     ];
 
     return (
-        // <div >
-        //     <Result
-        //         className="abs-center-register"
-        //         icon={<SmileOutlined />}
-        //         title="Welcome to Virtual work place, please register as a user or buisness to continue"
-        //     />
-        //     <Row className="spec-register">
 
-        //         <Col span={12} offset={6}>
-        //             <Tabs>
-        //                 <TabPane tab="Create a buisness" key="1">
-        //                     {buisnessRegister()}
-        //                 </TabPane>
-        //                 <TabPane tab="Join a buisness" key="2">
-        //                     {userRegister()}
-        //                 </TabPane>
-        //             </Tabs>
-
-        //         </Col>
-        //     </Row>
-        // </div>
         <div className="spec-register">
             <Result
                 icon={<SmileOutlined />}
@@ -384,18 +426,6 @@ function Register() {
                 ))}
             </Steps>
             <div className="steps-content">{steps[currentStep].content}</div>
-            {/* <div className="steps-action">
-                {currentStep < steps.length - 1 && (
-                    <Button type="primary" onClick={() => next()}>
-                        Next
-                    </Button>
-                )}
-                {currentStep === steps.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                        Done
-                    </Button>
-                )}
-            </div> */}
         </div>
 
     );

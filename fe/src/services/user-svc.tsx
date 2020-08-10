@@ -2,7 +2,7 @@ import { message } from 'antd';
 import Axios from 'axios';
 import { Conf } from '../config';
 import { Util } from '../utils/utils';
-import { LoginFormSubmit } from '../models/models'
+import { LoginFormSubmit, UserRegisterForm } from '../models/models'
 
 export default class UserSvc {
 
@@ -21,14 +21,14 @@ export default class UserSvc {
             });
     }
 
-    public static register() {
-        Axios.post(`${Conf.API_URL}/signup`, {})
+    public static register(userRegisterDetails: UserRegisterForm, callbk: Function) {
+        Axios.post(`${Conf.API_URL}/signup`, userRegisterDetails)
             .then((response) => {
-                console.log("login response", response);
+                callbk(response)
             })
             .catch(function (error) {
                 message.destroy()
-                message.error(Util.isSet(() => error.response.data.error, "Error logging in user!"), 4);
+                message.error(Util.isSet(() => error.response.data.error, "Error registering user!"), 4);
             });
     }
 

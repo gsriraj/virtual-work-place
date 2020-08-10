@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch, NavLink, useLocation, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, NavLink, Link, useLocation, BrowserRouter } from 'react-router-dom';
 import {
     Layout,
     Menu,
@@ -26,7 +26,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 
-function Main() {
+function Main(props: any) {
 
 
     const [collapsed, setCollapsed] = useState<boolean>(false)
@@ -37,8 +37,8 @@ function Main() {
 
 
     const location = useLocation();
+    console.log("value", props.isAuthenticated)
 
-    
     return (
         <BrowserRouter>
             <Layout style={{ minHeight: '100vh' }}>
@@ -77,9 +77,9 @@ function Main() {
                             </NavLink>
                         </Menu.Item>
                         <Menu.Item key="/settings" icon={<SettingOutlined />}>
-                            <NavLink to="/settings">
+                            <Link to={{ pathname: "/settings", state: { isAuthenticated: props.isAuthenticated, setisAuthenticate: props.setisAuthenticate } }}>
                                 Settings
-                            </NavLink>
+                            </Link>
                         </Menu.Item>
 
                     </Menu>

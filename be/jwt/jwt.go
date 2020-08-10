@@ -3,7 +3,6 @@ package jwt
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -11,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 	"github.com/srirajg/virtual-work-place/redis"
@@ -20,63 +18,6 @@ import (
 
 var ctx = context.Background()
 var res structs.ResponseResult
-
-// JwtMiddleware for handlers
-var JwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
-	ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
-		// Verify 'aud' claim
-		aud := os.Getenv("AUD")
-		checkAud := token.Claims.(jwt.MapClaims).VerifyAudience(aud, false)
-		if !checkAud {
-			return token, errors.New("Invalid audience.")
-		}
-		// Verify 'iss' claim
-		iss := os.Getenv("ISS")
-		checkIss := token.Claims.(jwt.MapClaims).VerifyIssuer(iss, false)
-		if !checkIss {
-			return token, errors.New("Invalid issuer.")
-		}
-
-		cert, err := GetPemCert(token)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		result, _ := jwt.ParseRSAPublicKeyFromPEM([]byte(cert))
-		return result, nil
-	},
-	SigningMethod: jwt.SigningMethodRS256,
-})
-
-func GetPemCert(token *jwt.Token) (string, error) {
-	cert := ""
-	resp, err := http.Get(os.Getenv("ISS") + "/.well-known/jwks.json")
-
-	if err != nil {
-		return cert, err
-	}
-	defer resp.Body.Close()
-
-	var jwks = structs.Jwks{}
-	err = json.NewDecoder(resp.Body).Decode(&jwks)
-
-	if err != nil {
-		return cert, err
-	}
-
-	for k, _ := range jwks.Keys {
-		if token.Header["kid"] == jwks.Keys[k].Kid {
-			cert = "-----BEGIN CERTIFICATE-----\n" + jwks.Keys[k].X5c[0] + "\n-----END CERTIFICATE-----"
-		}
-	}
-
-	if cert == "" {
-		err := errors.New("Unable to find appropriate key.")
-		return cert, err
-	}
-
-	return cert, nil
-}
 
 func CreateToken(email string) (*structs.TokenDetails, error) {
 	td := &structs.TokenDetails{}

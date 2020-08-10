@@ -13,6 +13,7 @@ import (
 	"github.com/srirajg/virtual-work-place/jwt"
 	"github.com/srirajg/virtual-work-place/structs"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -36,9 +37,9 @@ func SignInUser(w http.ResponseWriter, r *http.Request) {
 	collection := db.Client.Database("vwp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 
-	errCall := collection.FindOne(ctx, bson.D{}).Decode(&user)
+	errCall := collection.FindOne(ctx, bson.M{"email": userLogin.Email}).Decode(&user)
 	defer cancel()
-
+	fmt.Println(user)
 	if errCall != nil {
 		res.Error = "Invalid username"
 		w.WriteHeader(http.StatusUnauthorized)
@@ -87,6 +88,7 @@ func SignUpUser(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
 	decoderErr := decoder.Decode(&user)
+	user.ID = primitive.NewObjectID()
 	defer r.Body.Close()
 
 	if decoderErr != nil {

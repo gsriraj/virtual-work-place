@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Result, Form, Input, Button, Checkbox } from 'antd';
 import { SmileOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -6,10 +6,12 @@ import './login.css';
 import { Store } from 'antd/lib/form/interface';
 import UserSvc from '../../services/user-svc';
 import { LoginFormSubmit } from '../../models/models'
+import { AuthContext } from '../../context/auth-context'
 
 function Login(props: any) {
 
     const { history } = props;
+    const { isAuthenticated, dispatch } = useContext(AuthContext)
 
     const onFinish = (values: Store) => {
         const loginDetails: LoginFormSubmit = {
@@ -17,10 +19,11 @@ function Login(props: any) {
             password: values.password
         }
         UserSvc.logIn(loginDetails, (response: any) => {
+            dispatch({ type: "Login" })
             history.push("/")
         });
     };
-    if (localStorage.getItem("access_token")) { return (<Redirect to='/' />) }
+    if (isAuthenticated) { return (<Redirect to='/' />) }
     else {
         return (
             <div className="abs-center-login"

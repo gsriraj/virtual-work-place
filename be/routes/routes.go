@@ -16,10 +16,10 @@ func Approutes(route *mux.Router) {
 	route.HandleFunc("/signin", handlers.SignInUser).Methods("POST")
 	route.HandleFunc("/signup", handlers.SignUpUser).Methods("POST")
 	route.HandleFunc("/signout", handlers.SignOutUser).Methods("POST")
+
+	route.HandleFunc("/company", handlers.CreateCompany).Methods("POST")
 	route.Handle("/userDetails", jwt.IsAuthorized(handlers.GetUserDetails)).Methods("GET")
 	route.HandleFunc("/token/refresh", jwt.Refresh).Methods("POST")
-	// route.HandleFunc("/userDetails", handlers.GetUserDetails).Methods("GET")
-	route.Handle("/testUserDetails", jwt.JwtMiddleware.Handler(handlers.TestUserHandler)).Methods("GET")
 
 	log.Println("Routes are Loaded.")
 }
